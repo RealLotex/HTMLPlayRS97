@@ -1,0 +1,28 @@
+name: Build and test HTMLPlay RS97
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  linux-and-mips:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install compiler tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang lld binutils
+      - name: Test HTML games and build MIPS32
+        run: |
+          ./tests/test.sh
+      - name: Package IPK
+        run: |
+          ./scripts/package-ipk.sh
+          ar t dist/htmlplay_rs97_v0.1.ipk
+          ar p dist/htmlplay_rs97_v0.1.ipk control.tar.gz | tar -tzf -
+      - name: Upload installable package
+        uses: actions/upload-artifact@v4
+        with:
+          name: htmlplay-rs97-ipk
+          path: dist/*.ipk

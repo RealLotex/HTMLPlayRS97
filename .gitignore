@@ -1,0 +1,9 @@
+# Local builds and test outputs
+/htmlplay.dge
+/tests/htmlplay_host
+/tests/*.ppm
+/tests/*.png
+/dist/
+*.o
+*.tmp
+.DS_Store

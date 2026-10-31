@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Esquiva los enemigos</title>
+<style>body {background: #0a1221;} canvas {background: #0a1221;}</style>
+</head>
+<body>
+<canvas id="game" width="320" height="240"></canvas>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+let x = 150;
+let y = 202;
+let badX = 70;
+let badY = 10;
+let speed = 2;
+let points = 0;
+let life = 3;
+function update() {
+ if (keys.ArrowLeft && x > 2) x -= 3;
+ if (keys.ArrowRight && x < 296) x += 3;
+ if (keys.ArrowUp && y > 36) y -= 2;
+ if (keys.ArrowDown && y < 209) y += 2;
+ badY += speed;
+ if (badY > 235) { badY = -16; badX = Math.random() * 288; points += 1; }
+ if (x < badX + 18 && x + 18 > badX && y < badY + 18 && y + 18 > badY) {
+   badY = -16;
+   badX = Math.random() * 288;
+   life -= 1;
+ }
+ if (life < 1) {life = 3; points = 0; speed = 2;}
+ if (points > 5) speed = 3;
+ if (points > 15) speed = 4;
+}
+function draw() {
+ ctx.fillStyle = '#0a1221';
+ ctx.fillRect(0,0,320,240);
+ ctx.fillStyle = '#163c57';
+ ctx.fillRect(0,0,320,27);
+ ctx.fillStyle = '#ffffff';
+ ctx.fillText('PUNTOS', 10, 8);
+ ctx.fillText(points, 55, 8);
+ ctx.fillText('VIDAS', 210, 8);
+ ctx.fillText(life, 254, 8);
+ ctx.fillStyle = '#10dfae';
+ ctx.fillRect(x,y,19,18);
+ ctx.fillStyle = '#ff4767';
+ ctx.fillRect(badX,badY,18,18);
+ ctx.fillStyle = '#9cb5d4';
+ ctx.fillText('MOVER: CRUCETA  SALIR: SELECT',8,230);
+}
+</script>
+</body>
+</html>

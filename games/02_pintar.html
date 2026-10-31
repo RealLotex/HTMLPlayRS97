@@ -1,0 +1,26 @@
+<!doctype html><html><head><style>body {background-color:#202030;}</style></head><body>
+<canvas width="320" height="240"></canvas>
+<script>
+const canvas = document.getElementById('screen');
+const ctx = canvas.getContext('2d');
+let x = 152;
+let y = 112;
+let size = 10;
+function update(){
+ if(keys.ArrowLeft) x -= 2;
+ if(keys.ArrowRight) x += 2;
+ if(keys.ArrowUp) y -= 2;
+ if(keys.ArrowDown) y += 2;
+ if(keys.Space) size += 1;
+ if(keys.x) size -= 1;
+ if(size<2) size=2;
+ if(size>60) size=60;
+}
+function draw(){
+ ctx.fillStyle='#202030'; ctx.fillRect(0,0,320,240);
+ ctx.fillStyle='#ffc164';ctx.fillRect(x,y,size,size);
+ ctx.strokeStyle='#ffffff';ctx.strokeRect(x,y,size,size);
+ ctx.fillStyle='#ffffff';ctx.fillText('PINTAR - A MAS GRANDE / B MENOR',4,6);
+ ctx.fillText('SELECT VUELVE AL MENU',4,228);
+}
+</script></body></html>
