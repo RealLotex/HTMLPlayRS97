@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Laberinto</title>
+<style>body {background: #111a2b;} canvas {background:#111a2b;}</style></head>
+<body><canvas id="game" width="320" height="240"></canvas>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+let px=18;let py=50;let oldX=18;let oldY=50;let steps=0;let won=0;
+function update() {
+ if (won==1) {
+   if (keys.Space) {px=18;py=50;oldX=18;oldY=50;steps=0;won=0;}
+ } else {
+   oldX=px;oldY=py;
+   if (keys.ArrowLeft) px-=2;
+   if (keys.ArrowRight) px+=2;
+   if (keys.ArrowUp) py-=2;
+   if (keys.ArrowDown) py+=2;
+   if (px<8 || px>302 || py<36 || py>220) {px=oldX;py=oldY;}
+   if (px+10>60 && px<72 && py+10>36 && py<176) {px=oldX;py=oldY;}
+   if (px+10>120 && px<132 && py+10>95 && py<231) {px=oldX;py=oldY;}
+   if (px+10>180 && px<192 && py+10>36 && py<176) {px=oldX;py=oldY;}
+   if (px+10>240 && px<252 && py+10>95 && py<231) {px=oldX;py=oldY;}
+   if (px!=oldX || py!=oldY) steps+=1;
+   if (px>282 && py>185) won=1;
+ }
+}
+function draw() {
+ ctx.fillStyle='#111a2b';ctx.fillRect(0,0,320,240);
+ ctx.fillStyle='#304661';ctx.fillRect(0,0,320,27);
+ ctx.fillStyle='#ffffff';ctx.fillText('LABERINTO',9,8);
+ ctx.fillText('PASOS',210,8);ctx.fillText(steps,260,8);
+ ctx.strokeStyle='#8ea9cd';ctx.strokeRect(4,32,312,203);
+ ctx.fillStyle='#627999';ctx.fillRect(60,36,12,140);ctx.fillRect(120,95,12,136);
+ ctx.fillRect(180,36,12,140);ctx.fillRect(240,95,12,136);
+ ctx.fillStyle='#48e0b1';ctx.fillRect(284,190,24,34);
+ ctx.fillStyle='#0c4a3f';ctx.fillText('FIN',287,201);
+ ctx.fillStyle='#ffd66e';ctx.fillRect(px,py,10,10);
+ if(won==1) {ctx.fillStyle='#162e40';ctx.fillRect(58,87,210,61);
+ ctx.fillStyle='#6cffe0';ctx.fillText('META ALCANZADA',105,102);
+ ctx.fillStyle='#ffffff';ctx.fillText('A PARA REINICIAR',94,126);}
+}
+</script></body></html>

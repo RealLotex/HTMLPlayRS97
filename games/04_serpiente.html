@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Serpiente</title>
+<style>body {background: #0b201b;} canvas {background:#0b201b;}</style></head>
+<body><canvas id="game" width="320" height="240"></canvas>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+let sx=150;let sy=120;
+let b1x=140;let b1y=120;
+let b2x=130;let b2y=120;
+let b3x=120;let b3y=120;
+let b4x=110;let b4y=120;
+let fx=230;let fy=150;
+let dir=1;let ticks=0;let points=0;let dead=0;
+function update() {
+ if (dead == 1) {
+   if (keys.Space) {
+     sx=150;sy=120;b1x=140;b1y=120;b2x=130;b2y=120;
+     b3x=120;b3y=120;b4x=110;b4y=120;
+     fx=230;fy=150;dir=1;points=0;ticks=0;dead=0;
+   }
+ } else {
+   if (keys.ArrowLeft && dir != 1) dir=0;
+   if (keys.ArrowRight && dir != 0) dir=1;
+   if (keys.ArrowUp && dir != 3) dir=2;
+   if (keys.ArrowDown && dir != 2) dir=3;
+   ticks+=1;
+   if (ticks >= 6) {
+     ticks=0;
+     b4x=b3x;b4y=b3y;b3x=b2x;b3y=b2y;
+     b2x=b1x;b2y=b1y;b1x=sx;b1y=sy;
+     if (dir == 0) sx-=10;
+     if (dir == 1) sx+=10;
+     if (dir == 2) sy-=10;
+     if (dir == 3) sy+=10;
+     if (sx < 10 || sx > 300 || sy < 40 || sy > 220) dead=1;
+     if (sx == b2x && sy == b2y) dead=1;
+     if (sx == b3x && sy == b3y) dead=1;
+     if (sx == b4x && sy == b4y) dead=1;
+     if (sx == fx && sy == fy) {
+       points+=1;
+       fx=Math.floor(Math.random()*28)*10+20;
+       fy=Math.floor(Math.random()*17)*10+40;
+     }
+   }
+ }
+}
+function draw() {
+ ctx.fillStyle='#0b201b';ctx.fillRect(0,0,320,240);
+ ctx.fillStyle='#183f33';ctx.fillRect(0,0,320,28);
+ ctx.fillStyle='#ebf7eb';ctx.fillText('SERPIENTE',10,8);ctx.fillText('COMIDA',205,8);ctx.fillText(points,267,8);
+ ctx.strokeStyle='#4f9162';ctx.strokeRect(6,36,308,195);
+ ctx.fillStyle='#43b17e';ctx.fillRect(b4x,b4y,9,9);ctx.fillRect(b3x,b3y,9,9);
+ ctx.fillRect(b2x,b2y,9,9);ctx.fillRect(b1x,b1y,9,9);
+ ctx.fillStyle='#a3ffd3';ctx.fillRect(sx,sy,9,9);
+ ctx.fillStyle='#ffbd67';ctx.fillRect(fx,fy,9,9);
+ if (dead == 1) {
+   ctx.fillStyle='#0b201b';ctx.fillRect(67,86,187,56);
+   ctx.fillStyle='#ff9c96';ctx.fillText('FIN DEL JUEGO',105,99);
+   ctx.fillStyle='#ffffff';ctx.fillText('A PARA REINICIAR',94,120);
+ }
+}
+</script></body></html>

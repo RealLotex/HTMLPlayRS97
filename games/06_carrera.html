@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Carrera de coches</title>
+<style>body {background: #161a23;} canvas {background:#161a23;}</style></head>
+<body><canvas id="game" width="320" height="240"></canvas>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+let lane=1;let enemy=0;let enemyY=37;let enemy2=2;let enemyY2=-140;
+let score=0;let lives=3;let delay=0;let speed=3;let over=0;
+function update() {
+ if (over==1) {
+   if (keys.Space) {lane=1;enemy=0;enemyY=37;enemy2=2;enemyY2=-140;score=0;lives=3;delay=0;speed=3;over=0;}
+ } else {
+   if (delay>0) delay-=1;
+   if (keys.ArrowLeft && delay==0 && lane>0) {lane-=1;delay=7;}
+   if (keys.ArrowRight && delay==0 && lane<2) {lane+=1;delay=7;}
+   enemyY+=speed;
+   enemyY2+=speed;
+   if (keys.Space) enemyY+=1;
+   if (enemyY>238) {enemyY=-44;enemy=Math.floor(Math.random()*3);score+=1;}
+   if (enemyY2>238) {enemyY2=-160;enemy2=Math.floor(Math.random()*3);score+=1;}
+   if (enemyY>169 && enemyY<218 && enemy==lane) {lives-=1;enemyY=-50;}
+   if (enemyY2>169 && enemyY2<218 && enemy2==lane) {lives-=1;enemyY2=-160;}
+   if (score>10) speed=4;
+   if (score>25) speed=5;
+   if (lives<1) over=1;
+ }
+}
+function draw() {
+ ctx.fillStyle='#101c1a';ctx.fillRect(0,0,320,240);
+ ctx.fillStyle='#303743';ctx.fillRect(38,28,244,212);
+ ctx.fillStyle='#aeb7a7';ctx.fillRect(37,28,3,212);ctx.fillRect(281,28,3,212);
+ ctx.fillStyle='#a1a58f';
+ ctx.fillRect(117,42,2,25);ctx.fillRect(117,106,2,25);ctx.fillRect(117,171,2,25);
+ ctx.fillRect(199,42,2,25);ctx.fillRect(199,106,2,25);ctx.fillRect(199,171,2,25);
+ ctx.fillStyle='#1b2537';ctx.fillRect(0,0,320,28);
+ ctx.fillStyle='#ffffff';ctx.fillText('CARRERA',9,8);ctx.fillText('PTS',155,8);ctx.fillText(score,181,8);
+ ctx.fillText('VIDAS',234,8);ctx.fillText(lives,280,8);
+ ctx.fillStyle='#e65d67';ctx.fillRect(65+enemy*80,enemyY,30,30);
+ ctx.fillStyle='#f8bb65';ctx.fillRect(65+enemy2*80,enemyY2,30,30);
+ ctx.fillStyle='#58ddff';ctx.fillRect(65+lane*80,198,30,30);
+ ctx.fillStyle='#0f6b81';ctx.fillRect(71+lane*80,200,18,6);
+ ctx.fillStyle='#ffffff';ctx.fillRect(71+lane*80,218,18,5);
+ if(over==1) {ctx.fillStyle='#1b2537';ctx.fillRect(56,93,210,56);
+ ctx.fillStyle='#ff9d9d';ctx.fillText('CHOQUE FINAL',117,106);
+ ctx.fillStyle='#ffffff';ctx.fillText('A PARA REINICIAR',95,128);}
+}
+</script></body></html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Rompe ladrillos</title>
+<style>body {background: #101327;} canvas {background:#101327;}</style></head>
+<body><canvas id="game" width="320" height="240"></canvas>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+let paddle=126;let ballX=160;let ballY=180;let vx=2;let vy=-3;
+let b1=1;let b2=1;let b3=1;let b4=1;
+let b5=1;let b6=1;let b7=1;let b8=1;
+let score=0;let lives=3;let over=0;let win=0;
+function update() {
+ if (over == 1) {
+   if (keys.Space) {
+     paddle=126;ballX=160;ballY=180;vx=2;vy=-3;
+     b1=1;b2=1;b3=1;b4=1;b5=1;b6=1;b7=1;b8=1;
+     score=0;lives=3;over=0;win=0;
+   }
+ } else {
+   if (keys.ArrowLeft) paddle-=4;
+   if (keys.ArrowRight) paddle+=4;
+   if (paddle<2) paddle=2;
+   if (paddle>258) paddle=258;
+   ballX+=vx;ballY+=vy;
+   if (ballX < 1 || ballX > 311) vx=-vx;
+   if (ballY < 32) vy=-vy;
+   if (ballY > 206 && ballY < 220 && vy>0 && ballX+8>paddle && ballX<paddle+60) {vy=-vy;ballY=205;}
+   if (ballY>238) {lives-=1;ballX=160;ballY=174;vx=2;vy=-3;if (lives<1) over=1;}
+   if (b1==1 && ballY<58 && ballY+7>44 && ballX+7>10 && ballX<75) {b1=0;vy=-vy;score+=1;}
+   if (b2==1 && ballY<58 && ballY+7>44 && ballX+7>85 && ballX<150) {b2=0;vy=-vy;score+=1;}
+   if (b3==1 && ballY<58 && ballY+7>44 && ballX+7>160 && ballX<225) {b3=0;vy=-vy;score+=1;}
+   if (b4==1 && ballY<58 && ballY+7>44 && ballX+7>235 && ballX<300) {b4=0;vy=-vy;score+=1;}
+   if (b5==1 && ballY<80 && ballY+7>66 && ballX+7>10 && ballX<75) {b5=0;vy=-vy;score+=1;}
+   if (b6==1 && ballY<80 && ballY+7>66 && ballX+7>85 && ballX<150) {b6=0;vy=-vy;score+=1;}
+   if (b7==1 && ballY<80 && ballY+7>66 && ballX+7>160 && ballX<225) {b7=0;vy=-vy;score+=1;}
+   if (b8==1 && ballY<80 && ballY+7>66 && ballX+7>235 && ballX<300) {b8=0;vy=-vy;score+=1;}
+   if (score>=8) {win=1;over=1;}
+ }
+}
+function draw() {
+ ctx.fillStyle='#101327';ctx.fillRect(0,0,320,240);
+ ctx.fillStyle='#283050';ctx.fillRect(0,0,320,30);
+ ctx.fillStyle='#f1f3ff';ctx.fillText('ROMPELADRILLOS',7,8);
+ ctx.fillText('P',183,8);ctx.fillText(score,197,8);
+ ctx.fillText('V',262,8);ctx.fillText(lives,276,8);
+ ctx.fillStyle='#fd8182';
+ if(b1==1)ctx.fillRect(10,44,65,14);if(b2==1)ctx.fillRect(85,44,65,14);
+ if(b3==1)ctx.fillRect(160,44,65,14);if(b4==1)ctx.fillRect(235,44,65,14);
+ ctx.fillStyle='#ffd179';
+ if(b5==1)ctx.fillRect(10,66,65,14);if(b6==1)ctx.fillRect(85,66,65,14);
+ if(b7==1)ctx.fillRect(160,66,65,14);if(b8==1)ctx.fillRect(235,66,65,14);
+ ctx.fillStyle='#62e1f0';ctx.fillRect(paddle,221,60,7);
+ ctx.fillStyle='#ffffff';ctx.fillRect(ballX,ballY,7,7);
+ if (over==1) {
+   ctx.fillStyle='#101327';ctx.fillRect(54,100,210,57);
+   ctx.fillStyle='#a8f2ff';if (win==1)ctx.fillText('VICTORIA',128,110);
+   if(win==0)ctx.fillText('FIN DEL JUEGO',109,110);
+   ctx.fillStyle='#ffffff';ctx.fillText('A PARA REINICIAR',96,134);
+ }
+}
+</script></body></html>

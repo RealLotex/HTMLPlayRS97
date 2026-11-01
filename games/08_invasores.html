@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Invasores espaciales</title>
+<style>body {background: #070e20;} canvas {background:#070e20;}</style></head>
+<body><canvas id="game" width="320" height="240"></canvas>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+let ship=148;let shot=0;let shotX=0;let shotY=0;
+let e1=1;let e2=1;let e3=1;
+let x1=44;let x2=134;let x3=224;let enemyY=68;let dir=1;
+let attackX=140;let attackY=90;let lives=3;let score=0;let over=0;let win=0;
+function update() {
+ if(over==1) {
+  if(keys.Space) {ship=148;shot=0;shotX=0;shotY=0;e1=1;e2=1;e3=1;
+    x1=44;x2=134;x3=224;enemyY=68;dir=1;attackX=140;attackY=90;
+    lives=3;score=0;over=0;win=0;}
+ } else {
+   if(keys.ArrowLeft) ship-=3;
+   if(keys.ArrowRight) ship+=3;
+   if(ship<6) ship=6;
+   if(ship>290) ship=290;
+   if(keys.Space && shot==0) {shot=1;shotX=ship+12;shotY=195;}
+   if(shot==1) {shotY-=6;if(shotY<33) shot=0;}
+   x1+=dir;x2+=dir;x3+=dir;
+   if(x3>291 || x1<5) {dir=-dir;enemyY+=5;}
+   if(e1==1 && shot==1 && shotY<enemyY+16 && shotY+7>enemyY && shotX+3>x1 && shotX<x1+23) {e1=0;shot=0;score+=1;}
+   if(e2==1 && shot==1 && shotY<enemyY+16 && shotY+7>enemyY && shotX+3>x2 && shotX<x2+23) {e2=0;shot=0;score+=1;}
+   if(e3==1 && shot==1 && shotY<enemyY+16 && shotY+7>enemyY && shotX+3>x3 && shotX<x3+23) {e3=0;shot=0;score+=1;}
+   attackY+=3;
+   if(attackY>239) {attackY=enemyY+20;attackX=x2+10;}
+   if(attackY>197 && attackY<223 && attackX+5>ship && attackX<ship+28) {lives-=1;attackY=enemyY+20;}
+   if(enemyY>180) {lives=0;}
+   if(lives<1) {over=1;win=0;}
+   if(score>=3) {over=1;win=1;}
+ }
+}
+function draw() {
+ ctx.fillStyle='#070e20';ctx.fillRect(0,0,320,240);
+ ctx.fillStyle='#1a2946';ctx.fillRect(0,0,320,28);
+ ctx.fillStyle='#ffffff';ctx.fillText('INVASORES',9,8);
+ ctx.fillText('PTS',164,8);ctx.fillText(score,190,8);
+ ctx.fillText('V',257,8);ctx.fillText(lives,273,8);
+ ctx.fillStyle='#334563';ctx.fillRect(32,43,2,2);ctx.fillRect(205,50,2,2);
+ ctx.fillRect(90,121,2,2);ctx.fillRect(275,166,2,2);
+ ctx.fillStyle='#ff6b8b';
+ if(e1==1) ctx.fillRect(x1,enemyY,23,16);
+ if(e2==1) ctx.fillRect(x2,enemyY,23,16);
+ if(e3==1) ctx.fillRect(x3,enemyY,23,16);
+ ctx.fillStyle='#a2ddff';ctx.fillRect(ship,211,28,12);ctx.fillRect(ship+9,203,10,8);
+ ctx.fillStyle='#ffe487';if(shot==1) ctx.fillRect(shotX,shotY,3,8);
+ ctx.fillStyle='#ff738b';ctx.fillRect(attackX,attackY,5,11);
+ ctx.fillStyle='#9eb9d8';ctx.fillText('A: DISPARAR    SELECT: MENU',8,231);
+ if(over==1) {ctx.fillStyle='#162844';ctx.fillRect(54,95,213,57);
+ ctx.fillStyle='#b1f4ff';if(win==1)ctx.fillText('VICTORIA',127,107);
+ if(win==0)ctx.fillText('FIN DEL JUEGO',109,107);
+ ctx.fillStyle='#ffffff';ctx.fillText('A PARA REINICIAR',93,128);}
+}
+</script></body></html>

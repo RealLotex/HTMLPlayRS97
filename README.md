@@ -1,6 +1,6 @@
 # HTMLPlay RS97 0.1 – ejecutor de minijuegos HTML para RetroFW
 
-**Estado:** primera versión experimental. **Este IPK contiene un ejecutable MIPS32 real y dos juegos HTML de ejemplo.** Compilado y verificado en PC con una versión nativa de pruebas, pero **no probado en una RS97 física**. No es Chrome, Firefox ni un navegador web moderno.
+**Estado:** primera versión experimental. **Este IPK contiene un ejecutable MIPS32 real y ocho juegos HTML de ejemplo.** Compilado y verificado en PC con una versión nativa de pruebas, pero **no probado en una RS97 física**. No es Chrome, Firefox ni un navegador web moderno.
 
 ## Instalar
 
@@ -42,6 +42,23 @@ function draw(){
 
 **No soporta:** APIs DOM completas, `addEventListener`, `requestAnimationFrame`, `setInterval`, `for`, `while`, arrays, objetos dinámicos, imágenes, archivos JS/CSS externos, audio, Internet, vídeo, fuentes web, transparencias, CSS moderno o funciones JS arbitrarias. Si querés portar un juego HTML existente, posiblemente haya que reescribirlo según esta API. El interprete NO aplica la semántica completa de ECMAScript.
 
+## Juegos incluidos (8)
+
+Los seis juegos nuevos usan solo el subconjunto de Canvas y JavaScript soportado por esta versión de HTMLPlay. Se pueden abrir desde el selector sin archivos CSS/JS externos.
+
+| Archivo | Juego | Controles |
+| --- | --- | --- |
+| `01_esquivar.html` | Esquivá enemigos y sobreviví | Cruceta |
+| `02_pintar.html` | Mueve y cambia el tamaño de un pincel | Cruceta, A y B |
+| `03_pong_solo.html` | Pong individual: devolvé la pelota con la paleta | Izquierda/Derecha; A reinicia |
+| `04_serpiente.html` | Serpiente: buscá comida y evitá paredes y cola | Cruceta; A reinicia |
+| `05_rompeladrillos.html` | Rompeladrillos: eliminá ocho bloques | Izquierda/Derecha; A reinicia |
+| `06_carrera.html` | Carrera: esquivá coches en tres carriles | Izquierda/Derecha; A acelera |
+| `07_laberinto.html` | Laberinto: encontrá la salida entre muros | Cruceta; A reinicia |
+| `08_invasores.html` | Invasores: derribá las naves y evitá disparos | Izquierda/Derecha, A dispara |
+
+**Select** vuelve al selector en todos los juegos. Los ejemplos son experimentales; todavía no se probaron en una RS97 física.
+
 ## Controles
 
 Cruceta: movimiento. **A**: `keys.Space`; **B**: `keys.x`; **Start**: `keys.Enter`; **L/R**: `keys.q/e`. **Select**: volver al selector de HTML; desde ahí cierra la aplicación.
@@ -67,12 +84,10 @@ Código y glifos originales de este proyecto: licencia MIT (archivo `LICENSE`).
 
 - `source/htmlplay.c`: código del intérprete y del ejecutable RetroFW.
 - `source/build.sh`: compilación estática de ELF MIPS32 little-endian.
-- `games/`: dos juegos de muestra.
-- `tests/test.sh`: pruebas de escritorio y verificación ELF MIPS32.
+- `games/`: ocho juegos de muestra.
+- `tests/test.sh`: pruebas de los ocho juegos en escritorio y verificación ELF MIPS32.
 - `scripts/package-ipk.sh`: empaquetador RetroFW, con validaciones de arquitectura.
 - `.github/workflows/build.yml`: prueba y generación automática del IPK como artifact de GitHub Actions.
+- `PUBLISH.md`: instrucciones para subir este repositorio a GitHub.
 
 La publicación en GitHub **no prueba compatibilidad con una RS97 física**.
-
-Repositorio oficial: https://github.com/RealLotex/HTMLPlayRS97
-
